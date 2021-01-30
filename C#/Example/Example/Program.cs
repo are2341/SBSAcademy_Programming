@@ -11,7 +11,7 @@
  * - Example_06 (제네릭, 제네릭 컬렉션)
  * - Example_07 (델리게이트, 이벤트, 람다)
  * - Example_08 (파일 시스템, 비동기 작업)
- * - Example_09 (리플렉션, 소켓 프로그래밍)
+ * - Example_09 (리플렉션, 네트워크 프로그래밍)
  */
 namespace Example {
 	class Program {
