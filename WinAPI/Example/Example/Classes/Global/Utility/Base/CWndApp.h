@@ -1,11 +1,19 @@
 #pragma once
 
 #include "../../Define/KGDefine.h"
+#include "../Interface/IUpdatable.h"
+#include "../Interface/IRenderable.h"
 #include "../Interface/IWndMsgHandler.h"
 
 //! 윈도우 어플리케이션
-class CWndApp : public IWndMsgHandler {
-public:			// IWndMsgHandler
+class CWndApp : public IUpdatable, public IRenderable, public IWndMsgHandler {
+public:			// 인터페이스
+
+	//! 상태를 갱신한다
+	virtual void onUpdate(float a_fDeltaTime) override;
+
+	//! 물체를 그린다
+	virtual void onRender(HDC a_hDC) override;
 
 	//! 윈도우 메세지를 처리한다
 	virtual LRESULT handleWndMsg(HWND a_hWnd, UINT a_nMsg, WPARAM a_wParams, LPARAM a_lParams) override;
@@ -55,9 +63,14 @@ protected:			// 생성자, 소멸자
 protected:			// protected 변수
 
 	int m_nShowOpts = 0;
+	float m_fRunningTime = 0.0f;
 
 	SIZE m_stWndSize;
+	RECT m_stWndRect;
 	WNDCLASS m_stWndClass;
+
+	LARGE_INTEGER m_unPrevTime;
+	LARGE_INTEGER m_unFrequency;
 
 	HWND m_hWnd = nullptr;
 	HINSTANCE m_hInst = nullptr;

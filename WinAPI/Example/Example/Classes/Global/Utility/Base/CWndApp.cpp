@@ -1,22 +1,23 @@
 #include "CWndApp.h"
+#include "../Manager/CInputManager.h"
 
 // 전역 변수
 static CWndApp *g_pInst = nullptr;
 
 // 윈도우 프로시저
 static LRESULT CALLBACK WndProc(HWND a_hWnd, UINT a_nMsg, WPARAM a_wParams, LPARAM a_lParams) {
-	static IWndMsgHandler *pMsgHandler = nullptr;
+	static CWndApp *pWndApp = nullptr;
 
 	switch(a_nMsg) {
 		case WM_CREATE: {
 			auto pstCreateStruct = (CREATESTRUCT *)a_lParams;
-			pMsgHandler = static_cast<IWndMsgHandler *>(pstCreateStruct->lpCreateParams);
+			pWndApp = static_cast<CWndApp *>(pstCreateStruct->lpCreateParams);
 		} break;
 	}
 
-	// 윈도우 메세지 처리자가 존재 할 경우
-	if(pMsgHandler != nullptr){
-		return pMsgHandler->handleWndMsg(a_hWnd, a_nMsg, a_wParams, a_lParams);
+	// 윈도우가 생성 되었을 경우
+	if(pWndApp != nullptr){
+		return pWndApp->handleWndMsg(a_hWnd, a_nMsg, a_wParams, a_lParams);
 	}
 
 	return DefWindowProc(a_hWnd, a_nMsg, a_wParams, a_lParams);
@@ -34,7 +35,14 @@ m_stWndSize(a_rstWndSize)
 		m_pstWStream = freopen("CONOUT$", "wb", stdout);
 	}
 
+	m_stWndRect = RECT {
+		0, 0, a_rstWndSize.cx, a_rstWndSize.cy
+	};
+
 	g_pInst = this;
+
+	ZeroMemory(&m_unPrevTime, sizeof(m_unPrevTime));
+	ZeroMemory(&m_unFrequency, sizeof(m_unFrequency));
 	ZeroMemory(&m_stWndClass, sizeof(m_stWndClass));
 }
 
@@ -42,7 +50,16 @@ CWndApp::~CWndApp(void) {
 	SAFE_FCLOSE(m_pstRStream);
 	SAFE_FCLOSE(m_pstWStream);
 
+	SAFE_DELETE_OBJ(m_hMemoryBitmap);
 	UnregisterClass(m_stWndClass.lpszClassName, m_stWndClass.hInstance);
+}
+
+void CWndApp::onUpdate(float a_fDeltaTime) {
+	GET_INPUT_MANAGER()->onUpdate(a_fDeltaTime);
+}
+
+void CWndApp::onRender(HDC a_hDC) {
+	// Do Nothing
 }
 
 LRESULT CWndApp::handleWndMsg(HWND a_hWnd, UINT a_nMsg, WPARAM a_wParams, LPARAM a_lParams) {
@@ -81,30 +98,68 @@ CWndApp * CWndApp::getInst(void) {
 
 void CWndApp::init(void) {
 	m_hWnd = this->createWnd(m_stWndClass);
+	GET_INPUT_MANAGER()->init();
 }
 
 int CWndApp::runMsgLoop(void) {
 	MSG stMsg;
 	ZeroMemory(&stMsg, sizeof(stMsg));
 
-	while(GetMessage(&stMsg, NULL, 0, 0)) {
-		TranslateMessage(&stMsg);
-		DispatchMessage(&stMsg);
+	QueryPerformanceCounter(&m_unPrevTime);
+	QueryPerformanceFrequency(&m_unFrequency);
+
+	while(stMsg.message != WM_QUIT) {
+		// 메세지가 존재 할 경우
+		if(PeekMessage(&stMsg, NULL, 0, 0, PM_REMOVE)) {
+			TranslateMessage(&stMsg);
+			DispatchMessage(&stMsg);
+		}
+
+		auto hDC = GetDC(m_hWnd);
+		auto hMemoryDC = CreateCompatibleDC(hDC);
+
+		auto hPrevBitmap = SelectObject(hMemoryDC, m_hMemoryBitmap);
+		FillRect(hMemoryDC, &m_stWndRect, m_stWndClass.hbrBackground);
+
+		LARGE_INTEGER unCurTime;
+		QueryPerformanceCounter(&unCurTime);
+
+		float fDeltaTime = (unCurTime.QuadPart - m_unPrevTime.QuadPart) / (float)m_unFrequency.QuadPart;
+		m_fRunningTime += fDeltaTime;
+
+		this->onUpdate(fDeltaTime);
+		this->onRender(hMemoryDC);
+
+		RECT stTextRect = { 10, 10 };
+		TCHAR szTimeInfoString[MAX_PATH] = _T("");
+
+		_stprintf(szTimeInfoString, _T("Delta Time: %f sec\nRunning Time: %f sec"), fDeltaTime, m_fRunningTime);
+
+		DrawText(hMemoryDC, szTimeInfoString, _tcslen(szTimeInfoString), &stTextRect, DT_TOP | DT_LEFT | DT_CALCRECT);
+		DrawText(hMemoryDC, szTimeInfoString, _tcslen(szTimeInfoString), &stTextRect, DT_TOP | DT_LEFT);
+
+		BitBlt(hDC, 0, 0, m_stWndSize.cx, m_stWndSize.cy, hMemoryDC, 0, 0, SRCCOPY);
+		SelectObject(hMemoryDC, hPrevBitmap);
+
+		m_unPrevTime = unCurTime;
+
+		SAFE_DELETE_DC(hMemoryDC);
+		SAFE_RELEASE_DC(m_hWnd, hDC);
 	}
 
 	return stMsg.wParam;
 }
 
 void CWndApp::handleSizeMsg(HWND a_hWnd, WPARAM a_wParams, LPARAM a_lParams) {
-	m_stWndSize.cx = LOWORD(a_lParams);
-	m_stWndSize.cy = HIWORD(a_lParams);
-
-	auto hDC = GetDC(a_hWnd);
+	m_stWndSize.cx = m_stWndRect.right = LOWORD(a_lParams);
+	m_stWndSize.cy = m_stWndRect.bottom = HIWORD(a_lParams);
 
 	SAFE_DELETE_OBJ(m_hMemoryBitmap);
+
+	auto hDC = GetDC(m_hWnd);
 	m_hMemoryBitmap = CreateCompatibleBitmap(hDC, m_stWndSize.cx, m_stWndSize.cy);
 
-	ReleaseDC(a_hWnd, hDC);
+	SAFE_RELEASE_DC(m_hWnd, hDC);
 }
 
 void CWndApp::handleDestroyMsg(HWND a_hWnd, WPARAM a_wParams, LPARAM a_lParams) {
