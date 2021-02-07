@@ -52,6 +52,10 @@ bool CInputManager::isMouseBtnRelease(EMouseBtn a_eBtn) const {
 	return !this->isMouseBtnDown(a_eBtn) && (m_stPrevMouseState.rgbButtons[(int)a_eBtn] & 0x80);
 }
 
+long CInputManager::getWheelDelta(void) const {
+	return m_stMouseState.lZ;
+}
+
 POINT CInputManager::getMousePos(void) const {
 	POINT stMousePos = { 0 };
 

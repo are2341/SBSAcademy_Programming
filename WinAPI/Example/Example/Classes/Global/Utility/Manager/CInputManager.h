@@ -12,6 +12,7 @@ public:			// 인터페이스
 
 public:			// public 함수
 
+	//! 싱글턴
 	DECLARE_SINGLETON(CInputManager);
 
 	//! 초기화
@@ -34,6 +35,9 @@ public:			// public 함수
 
 	//! 마우스 버튼 눌림 종료 여부를 반환한다
 	bool isMouseBtnRelease(EMouseBtn a_eBtn) const;
+
+	//! 휠 간격을 반환한다
+	long getWheelDelta(void) const;
 
 	//! 마우스 위치를 반환한다
 	POINT getMousePos(void) const;
