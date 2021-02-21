@@ -7,13 +7,16 @@
 class CBitmap : public CObj {
 public:			// public 함수
 
+	//! 비트맵 영역을 반환한다
+	RECT getBitmapRect(void) const;
+
 	//! 비트맵 영역을 변경한다
 	void setBitmapRect(const RECT &a_rstBitmapRect);
 
 public:			// 생성자
 
 	//! 생성자
-	CBitmap(const std::string &a_rFilePath, const D3DXVECTOR3 &a_rstPos);
+	CBitmap(const std::string &a_rFilePath, const D3DXVECTOR2 &a_rstPos);
 
 protected:			// protected 함수
 

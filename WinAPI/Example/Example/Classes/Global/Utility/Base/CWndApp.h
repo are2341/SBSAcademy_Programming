@@ -5,6 +5,8 @@
 #include "../Interface/IRenderable.h"
 #include "../Interface/IWndMsgHandler.h"
 
+class CObj;
+
 //! 윈도우 어플리케이션
 class CWndApp : public IUpdatable, public IRenderable, public IWndMsgHandler {
 public:			// 인터페이스
@@ -29,6 +31,9 @@ public:			// public 함수
 	//! 인스턴스 핸들을 반환한다
 	HINSTANCE getInstHandle(void) const;
 
+	//! 루트 객체를 변경한다
+	void setRoot(CObj *a_pRoot);
+
 	//! 어플리케이션을 실행한다
 	int run(void);
 
@@ -51,6 +56,9 @@ protected:			// protected 함수
 
 	//! 윈도우를 생성한다
 	virtual HWND createWnd(WNDCLASS &a_rstOutWndClass);
+
+	//! 루트 객체를 생성한다
+	virtual CObj * createRoot(void);
 
 protected:			// 생성자, 소멸자
 
@@ -77,6 +85,9 @@ protected:			// protected 변수
 
 	HDC m_hDC = nullptr;
 	HBITMAP m_hMemoryBitmap = nullptr;
+
+	CObj *m_pRoot = nullptr;
+	CObj *m_pNextRoot = nullptr;
 
 	FILE *m_pstRStream = nullptr;
 	FILE *m_pstWStream = nullptr;

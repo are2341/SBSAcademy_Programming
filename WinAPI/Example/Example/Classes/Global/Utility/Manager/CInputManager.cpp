@@ -10,7 +10,10 @@ CInputManager::CInputManager(void) {
 }
 
 CInputManager::~CInputManager(void) {
-	// Do Nothing
+	SAFE_UNACQUIRE(m_pKeyboardDevice);
+	SAFE_UNACQUIRE(m_pMouseDevice);
+
+	SAFE_RELEASE(m_pDInput);
 }
 
 void CInputManager::onUpdate(float a_fDeltaTime) {

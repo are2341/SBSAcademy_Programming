@@ -38,11 +38,32 @@
     <Filter Include="Classes\Example_04 %28GDI 오브젝트 - 3%29">
       <UniqueIdentifier>{4ac3d04d-af86-4954-b0d0-faca46a28248}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Classes\Example_05 %28입력 장치 제어%29">
-      <UniqueIdentifier>{bddf5220-72b2-43bd-b97b-2530218a6b5e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Classes\Global\Utility\Object">
       <UniqueIdentifier>{14c7f53b-5dc1-4784-961e-e20cbedb55bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Example_05 %28입력%29">
+      <UniqueIdentifier>{bddf5220-72b2-43bd-b97b-2530218a6b5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Example_06 %28사운드%29">
+      <UniqueIdentifier>{181d3442-d186-4091-84fc-991b5561cb8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Example_07 %28충돌 처리%29">
+      <UniqueIdentifier>{c8868774-90d1-4764-96c4-603d292ec42c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Example_08 %28미니 게임 제작 - 1%29">
+      <UniqueIdentifier>{4689305c-b984-47e3-8866-b0bba0f5830f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Example_09 %28미니 게임 제작 - 2%29">
+      <UniqueIdentifier>{f70cb399-61d4-4dfe-9ba4-214ed928fe17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Example_10 %28미니 게임 제작 - 3%29">
+      <UniqueIdentifier>{fc3d46f0-fa48-4fac-893c-83ff3226322f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Global\Function">
+      <UniqueIdentifier>{7807887e-417d-45ae-831e-687b0777a3ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Global\Utility\RenderObject">
+      <UniqueIdentifier>{46fe336a-6cf1-468c-a5e0-64583f288b95}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -79,11 +100,20 @@
     <ClInclude Include="Classes\Global\Utility\Manager\CResManager.h">
       <Filter>Classes\Global\Utility\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\Global\Utility\Object\CBitmap.h">
-      <Filter>Classes\Global\Utility\Object</Filter>
-    </ClInclude>
     <ClInclude Include="Classes\Global\Utility\Base\CObj.h">
       <Filter>Classes\Global\Utility\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Global\Function\GFunc.h">
+      <Filter>Classes\Global\Function</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Global\Utility\Manager\CSndManager.h">
+      <Filter>Classes\Global\Utility\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Global\Utility\RenderObject\CBitmap.h">
+      <Filter>Classes\Global\Utility\RenderObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Global\Utility\Object\CSnd.h">
+      <Filter>Classes\Global\Utility\Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -114,7 +144,16 @@
     <ClCompile Include="Classes\Global\Utility\Base\CObj.cpp">
       <Filter>Classes\Global\Utility\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Classes\Global\Utility\Object\CBitmap.cpp">
+    <ClCompile Include="Classes\Global\Function\GFunc.cpp">
+      <Filter>Classes\Global\Function</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Global\Utility\Manager\CSndManager.cpp">
+      <Filter>Classes\Global\Utility\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Global\Utility\RenderObject\CBitmap.cpp">
+      <Filter>Classes\Global\Utility\RenderObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Global\Utility\Object\CSnd.cpp">
       <Filter>Classes\Global\Utility\Object</Filter>
     </ClCompile>
   </ItemGroup>

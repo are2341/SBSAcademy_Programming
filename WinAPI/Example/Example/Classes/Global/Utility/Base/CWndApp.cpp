@@ -1,4 +1,5 @@
 #include "CWndApp.h"
+#include "CObj.h"
 #include "../Manager/CInputManager.h"
 
 // 전역 변수
@@ -47,6 +48,9 @@ m_stWndSize(a_rstWndSize)
 }
 
 CWndApp::~CWndApp(void) {
+	SAFE_DELETE(m_pRoot);
+	SAFE_DELETE(m_pNextRoot);
+
 	SAFE_FCLOSE(m_pstRStream);
 	SAFE_FCLOSE(m_pstWStream);
 
@@ -56,10 +60,18 @@ CWndApp::~CWndApp(void) {
 
 void CWndApp::onUpdate(float a_fDeltaTime) {
 	GET_INPUT_MANAGER()->onUpdate(a_fDeltaTime);
+
+	// 루트 객체가 존재 할 경우
+	if(m_pRoot != nullptr) {
+		m_pRoot->onUpdate(a_fDeltaTime);
+	}
 }
 
 void CWndApp::onRender(HDC a_hDC) {
-	// Do Nothing
+	// 루트 객체가 존재 할 경우
+	if(m_pRoot != nullptr){
+		m_pRoot->onRender(a_hDC);
+	}
 }
 
 LRESULT CWndApp::handleWndMsg(HWND a_hWnd, UINT a_nMsg, WPARAM a_wParams, LPARAM a_lParams) {
@@ -83,6 +95,10 @@ HINSTANCE CWndApp::getInstHandle(void) const {
 	return m_hInst;
 }
 
+void CWndApp::setRoot(CObj * a_pRoot) {
+	m_pNextRoot = a_pRoot;
+}
+
 int CWndApp::run(void) {
 	this->init();
 
@@ -98,6 +114,8 @@ CWndApp * CWndApp::getInst(void) {
 
 void CWndApp::init(void) {
 	m_hWnd = this->createWnd(m_stWndClass);
+	m_pRoot = this->createRoot();
+
 	GET_INPUT_MANAGER()->init();
 }
 
@@ -145,6 +163,14 @@ int CWndApp::runMsgLoop(void) {
 
 		SAFE_DELETE_DC(hMemoryDC);
 		SAFE_RELEASE_DC(m_hWnd, hDC);
+
+		// 다음 루트가 존재 할 경우
+		if(m_pNextRoot != nullptr) {
+			SAFE_DELETE(m_pRoot);
+
+			m_pRoot = m_pNextRoot;
+			m_pNextRoot = nullptr;
+		}
 	}
 
 	return stMsg.wParam;
@@ -189,4 +215,8 @@ HWND CWndApp::createWnd(WNDCLASS & a_rstOutWndClass) {
 
 	AdjustWindowRect(&stWndRect, WS_OVERLAPPEDWINDOW, FALSE);
 	return CreateWindow(stWndClass.lpszClassName, stWndClass.lpszClassName, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, stWndRect.right - stWndRect.left, stWndRect.bottom - stWndRect.top, GetDesktopWindow(), NULL, stWndClass.hInstance, this);
+}
+
+CObj * CWndApp::createRoot(void) {
+	return new CObj(D3DXVECTOR2(0.0f, 0.0f));
 }

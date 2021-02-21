@@ -147,6 +147,7 @@
     <ClInclude Include="Classes\Example_03\Example_03.h" />
     <ClInclude Include="Classes\Example_04\Example_04.h" />
     <ClInclude Include="Classes\Global\Define\KGDefine.h" />
+    <ClInclude Include="Classes\Global\Function\GFunc.h" />
     <ClInclude Include="Classes\Global\Utility\Base\CObj.h" />
     <ClInclude Include="Classes\Global\Utility\Base\CWndApp.h" />
     <ClInclude Include="Classes\Global\Utility\Interface\IRenderable.h" />
@@ -154,7 +155,9 @@
     <ClInclude Include="Classes\Global\Utility\Interface\IWndMsgHandler.h" />
     <ClInclude Include="Classes\Global\Utility\Manager\CInputManager.h" />
     <ClInclude Include="Classes\Global\Utility\Manager\CResManager.h" />
-    <ClInclude Include="Classes\Global\Utility\Object\CBitmap.h" />
+    <ClInclude Include="Classes\Global\Utility\Manager\CSndManager.h" />
+    <ClInclude Include="Classes\Global\Utility\Object\CSnd.h" />
+    <ClInclude Include="Classes\Global\Utility\RenderObject\CBitmap.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Classes\Example.cpp" />
@@ -162,11 +165,14 @@
     <ClCompile Include="Classes\Example_02\Example_02.cpp" />
     <ClCompile Include="Classes\Example_03\Example_03.cpp" />
     <ClCompile Include="Classes\Example_04\Example_04.cpp" />
+    <ClCompile Include="Classes\Global\Function\GFunc.cpp" />
     <ClCompile Include="Classes\Global\Utility\Base\CObj.cpp" />
     <ClCompile Include="Classes\Global\Utility\Base\CWndApp.cpp" />
     <ClCompile Include="Classes\Global\Utility\Manager\CInputManager.cpp" />
     <ClCompile Include="Classes\Global\Utility\Manager\CResManager.cpp" />
-    <ClCompile Include="Classes\Global\Utility\Object\CBitmap.cpp" />
+    <ClCompile Include="Classes\Global\Utility\Manager\CSndManager.cpp" />
+    <ClCompile Include="Classes\Global\Utility\Object\CSnd.cpp" />
+    <ClCompile Include="Classes\Global\Utility\RenderObject\CBitmap.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

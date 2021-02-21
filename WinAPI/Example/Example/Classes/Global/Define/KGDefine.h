@@ -3,11 +3,13 @@
 
 #include <iostream>
 #include <cassert>
+#include <functional>
 #include <vector>
 #include <unordered_map>
 #include <d3d9.h>
 #include <d3dx9.h>
 #include <dinput.h>
+#include <dsound.h>
 #include <Windows.h>
 #include <tchar.h>
 
@@ -68,4 +70,10 @@ enum class EMouseBtn {
 	RIGHT,
 	MIDDLE,
 	MAX_VALUE
+};
+
+//! ¿ø
+struct STCircle {
+	float m_fRadius;
+	D3DXVECTOR2 m_stCenter;
 };
