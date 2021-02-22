@@ -31,6 +31,9 @@ public:			// public 함수
 	//! 인스턴스 핸들을 반환한다
 	HINSTANCE getInstHandle(void) const;
 
+	//! 루트 객체를 반환한다
+	CObj * getRoot(void) const;
+
 	//! 루트 객체를 변경한다
 	void setRoot(CObj *a_pRoot);
 
@@ -44,9 +47,6 @@ protected:			// protected 함수
 
 	//! 초기화
 	virtual void init(void);
-
-	//! 메세지 루프를 실행한다
-	virtual int runMsgLoop(void);
 
 	//! 크기 메세지를 처리한다
 	virtual void handleSizeMsg(HWND a_hWnd, WPARAM a_wParams, LPARAM a_lParams);
@@ -91,4 +91,9 @@ protected:			// protected 변수
 
 	FILE *m_pstRStream = nullptr;
 	FILE *m_pstWStream = nullptr;
+
+private:			// private 함수
+
+	//! 메세지 루프를 실행한다
+	virtual int runMsgLoop(void);
 };

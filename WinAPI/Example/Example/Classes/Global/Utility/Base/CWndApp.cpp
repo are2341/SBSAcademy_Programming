@@ -95,6 +95,10 @@ HINSTANCE CWndApp::getInstHandle(void) const {
 	return m_hInst;
 }
 
+CObj * CWndApp::getRoot(void) const {
+	return m_pRoot;
+}
+
 void CWndApp::setRoot(CObj * a_pRoot) {
 	m_pNextRoot = a_pRoot;
 }
@@ -159,10 +163,10 @@ int CWndApp::runMsgLoop(void) {
 		BitBlt(hDC, 0, 0, m_stWndSize.cx, m_stWndSize.cy, hMemoryDC, 0, 0, SRCCOPY);
 		SelectObject(hMemoryDC, hPrevBitmap);
 
-		m_unPrevTime = unCurTime;
-
 		SAFE_DELETE_DC(hMemoryDC);
 		SAFE_RELEASE_DC(m_hWnd, hDC);
+
+		m_unPrevTime = unCurTime;
 
 		// 다음 루트가 존재 할 경우
 		if(m_pNextRoot != nullptr) {

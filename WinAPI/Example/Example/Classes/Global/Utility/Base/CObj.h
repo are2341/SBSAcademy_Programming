@@ -48,6 +48,9 @@ public:			// 持失切, 社瑚切
 	//! 持失切
 	CObj(const D3DXVECTOR2 &a_rstPos);
 
+	//! 持失切
+	CObj(const D3DXVECTOR2 &a_rstPos, const D3DXVECTOR2 &a_rstSize);
+
 	//! 社瑚切
 	virtual ~CObj(void);
 

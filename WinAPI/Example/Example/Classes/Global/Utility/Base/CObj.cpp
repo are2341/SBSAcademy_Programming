@@ -1,11 +1,17 @@
 #include "CObj.h"
 
 CObj::CObj(const D3DXVECTOR2 & a_rstPos)
+: CObj(a_rstPos, D3DXVECTOR2(0.0f, 0.0f))
+{
+	// Do Nothing
+}
+
+CObj::CObj(const D3DXVECTOR2 & a_rstPos, const D3DXVECTOR2 & a_rstSize) 
 :
 m_stPos(a_rstPos),
-m_stWorldPos(a_rstPos)
+m_stSize(a_rstSize)
 {
-	ZeroMemory(&m_stSize, sizeof(m_stSize));
+	m_stWorldPos = a_rstPos;
 }
 
 CObj::~CObj(void) {

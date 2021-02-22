@@ -15,10 +15,10 @@ int WINAPI _tWinMain(HINSTANCE a_hInst, HINSTANCE a_hPrevInst, TCHAR *a_pszCmdLi
 		480, 320
 	};
 
-	//Example_01 oApp(a_hInst, stWndSize, a_nShowOpts);
+	Example_01 oApp(a_hInst, stWndSize, a_nShowOpts);
 	//Example_02 oApp(a_hInst, stWndSize, a_nShowOpts);
 	//Example_03 oApp(a_hInst, stWndSize, a_nShowOpts);
-	Example_04 oApp(a_hInst, stWndSize, a_nShowOpts);
+	//Example_04 oApp(a_hInst, stWndSize, a_nShowOpts);
 
 	return oApp.run();
 }
