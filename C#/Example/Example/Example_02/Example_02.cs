@@ -1,14 +1,22 @@
-﻿//#define EXAMPLE_TYPE_VARIABLE
-#define EXAMPLE_TYPE_DATA_INPUT_OUTPUT
+﻿//#define E02_VARIABLE
+//#define E02_CONSTANT
+#define E02_DATA_INPUT_OUTPUT
 
 using System;
 
 namespace Example.Example_02 {
 	//! Example 2
 	public class Example_02 {
+#if E02_CONSTANT
+		private const int CONSTANT_VALUE_A = 10;
+		private const float CONSTANT_VALUE_B = 3.14f;
+
+		private const string CONSTANT_STRING = "Hello, World!";
+#endif			// #if E02_CONSTANT
+
 		//! 초기화
 		public static void Start(string[] args) {
-#if EXAMPLE_TYPE_VARIABLE
+#if E02_VARIABLE
 			byte nByteA = byte.MaxValue;
 			sbyte nByteB = sbyte.MaxValue;
 
@@ -38,19 +46,25 @@ namespace Example.Example_02 {
 
 			char chChar = 'A';
 			string oString = "Hello, World!";
-			string 한글로_된_변수 = "Hello, World!";
+			string 한글_변수 = "Hello, World!";
 
 			Console.WriteLine("\n===== 문자(열) 출력 =====");
 			Console.WriteLine("char: {0}, {1}", sizeof(char), chChar);
-			Console.WriteLine("string: {0}, {1}", oString, 한글로_된_변수);
-#elif EXAMPLE_TYPE_DATA_INPUT_OUTPUT
+			Console.WriteLine("string: {0}, {1}", oString, 한글_변수);
+#elif E02_CONSTANT
+			Console.WriteLine("===== 컴파일 타임 상수 출력 =====");
+			Console.WriteLine("int: {0}", Example_02.CONSTANT_VALUE_A);
+			Console.WriteLine("float: {0}", Example_02.CONSTANT_VALUE_B);
+
+			Console.WriteLine("string: {0}", Example_02.CONSTANT_STRING);
+#elif E02_DATA_INPUT_OUTPUT
 			Console.Write("수식 입력 : ");
-			var oInputTokens = Console.ReadLine().Split(" ");
+			var oTokens = Console.ReadLine().Split(" ");
 
-			int nLhs = int.Parse(oInputTokens[0]);
-			int nRhs = int.Parse(oInputTokens[2]);
+			int nLhs = int.Parse(oTokens[0]);
+			int nRhs = int.Parse(oTokens[2]);
 
-			char chOperator = char.Parse(oInputTokens[1]);
+			char chOperator = char.Parse(oTokens[1]);
 			Console.Write("결과 : ");
 
 			switch(chOperator) {
@@ -59,7 +73,7 @@ namespace Example.Example_02 {
 				case '*': Console.WriteLine("{0}", nLhs * nRhs); break;
 				case '/': Console.WriteLine("{0}", nLhs / (float)nRhs); break;
 			}
-#endif			// #if EXAMPLE_TYPE_VARIABLE
+#endif			// #if E02_VARIABLE
 		}
 	}
 }

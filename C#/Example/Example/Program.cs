@@ -1,7 +1,7 @@
 ﻿using System;
 
 /*
- * C# 주체 리스트
+ * C# 주제 리스트
  * :
  * - Example_01 (C# 기초)
  * - Example_02 (자료형, 변수/상수, 데이터 입/출력)
@@ -10,7 +10,7 @@
  * - Example_05 (배열, 컬렉션)
  * - Example_06 (제네릭, 제네릭 컬렉션)
  * - Example_07 (델리게이트, 이벤트, 람다)
- * - Example_08 (파일 시스템, 비동기 작업)
+ * - Example_08 (파일 시스템, 비동기 처리)
  * - Example_09 (리플렉션, 네트워크 프로그래밍)
  */
 namespace Example {

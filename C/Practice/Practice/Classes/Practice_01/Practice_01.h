@@ -2,5 +2,7 @@
 
 #include "../Global/Define/KGDefine.h"
 
-//! Practice 1
-void Practice_01(const int argc, const char **args);
+namespace P01 {
+	//! Practice 1
+	void Practice_01(const int argc, const char **args);
+}
